@@ -42,14 +42,14 @@ def main():
         GPIO.output(pin_num, GPIO.LOW)
         capture.release()
         if led_pos=='front' and kake(base_path + led_pos + '.png'):
-            return 'kake'
+            return 1
             break
         result = dakon_kizu(base_path + led_pos + '.png')
         if result == 1:
-            return 'dakon'
+            return 2
             break
         elif result == 2:
-            return 'kizu'
+            return 3
             break
     capture.release()
     cv2.destroyAllWindows()

@@ -16,7 +16,10 @@ def set_ini(ini_path):
     inifile.read(config_file, 'utf_8')
     return inifile
 
-def pred(file):
+def kake(file):
+    return 0
+
+def dakon_kizu(file):
     return 0
 
 def main():
@@ -34,11 +37,17 @@ def main():
         sleep(config.getfloat('shot', 'second'))
         _, frame=capture.read()
         cv2.imwrite(base_path + led_pos + '.png', frame)
-        if pred(base_path + led_pos + '.png'):
-            print('hoge')
-            break
         GPIO.output(pin_num, GPIO.LOW)
-    
+        if led_pos=='front' and kake(base_path + led_pos + '.png'):
+            return 'kake'
+            break
+        result = dakon_kizu(base_path + led_pos + '.png')
+        if result == 1:
+            return 'dakon'
+            break
+        elif result == 2:
+            return 'kizu'
+            break
     capture.release()
     cv2.destroyAllWindows()
 

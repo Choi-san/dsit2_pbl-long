@@ -23,21 +23,24 @@ def dakon_kizu(file):
     return 0
 
 def main():
-    base_path = './pict/' + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + '/'
+    base_path = './pict/' + datetime.datetime.now().strftime('%Y%m%d_%H%M%S') + '/'
     os.makedirs(base_path, exist_ok=True)
-    capture = cv2.VideoCapture(0)
     config=set_ini('./config.ini')
     led_pos_list = ['front','right','left','back']
     GPIO.setmode(GPIO.BCM)
 
     for led_pos in led_pos_list:
-        GPIO.setup(pin_num, GPIO.OUT)
+        capture = cv2.VideoCapture(0)
+        capture.set(3,224)
+        capture.set(4,224)
         pin_num = config.getint('pin_number',led_pos)
+        GPIO.setup(pin_num, GPIO.OUT)
         GPIO.output(pin_num, GPIO.HIGH)
         sleep(config.getfloat('shot', 'second'))
         _, frame=capture.read()
         cv2.imwrite(base_path + led_pos + '.png', frame)
         GPIO.output(pin_num, GPIO.LOW)
+        capture.release()
         if led_pos=='front' and kake(base_path + led_pos + '.png'):
             return 'kake'
             break

@@ -318,11 +318,19 @@ def main():
         ret_MR2011 = myapp.TxRx_MR2011()
     print ('撮像ｽﾀｰﾄ信号が入りました')
     
+    # [start] Add by htk (2019.11.25)
+    from PBL2_Prediction_TeamFuji import expand2square, kake, dakon_kizu, pred
+    ret_predict = str(pred())
+    # [ end ] Add by htk (2019.11.25)
+    
     #  撮像及び 判定処理 
     #  仮で戻り値を 良品：０ 、 欠け：１ 、 キズ：２、打痕：３、その他：４ としています
     #  次の2行は動作確認用として仮で設置 （推論モデルとドッキングしたら削除）
-    ret_predict = 4
-    ret_predict = str(input())
+    # Commented out by htk (2019.11.25)
+    # ret_predict = 4
+    # ret_predict = str(input())
+    # Commented out by htk (2019.11.25)
+
     print ('判定結果:',ret_predict)
     
     # 判定結果を PLCに送る
